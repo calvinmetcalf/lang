@@ -1,17 +1,11 @@
-//google.load('visualization', '1', {});
 $(function() {
 var g = google.maps;
 var zoom;
 var lat;
 var lng;
-var langs = {
-    "Spanish":{"id":"1KhAGPhfDsMVHYckfcySZ9RUZiSuE3qgHrsj8YbY"},
-"French":{"id":"1xpbIRbpvruYQbnZ1oyH61L9CNNEdRQ5Vq0AuyK4"},
-"Portuguese":{"id":"1Wbb-7oIrLUMZ60r9DEn3zAuzjW0SHP2venVyHD4"},
-"Chinese":{"id":"1pFgXzqn0jwsEEQQmlKSPSQRpB_Q2Xj5NvbTtBMc"},
-"Italian":{"id":"1shFONnSwa1Fc8HUOdOdGmY8ieTAIuO6onAm2OVc"}
-};
-var l = "Spanish";
+var tid ="1c652Nh2j2SEGsi0ZDRzysEwf_yGEhsrUyC2miUA"
+var l = ["Spanish","French","French Creole","Italian","Portuguese","Greek","Russian","Polish","Chinese","Korean","Cambodian","Vietnamese","Arabic"];
+var c = l[0];
 var hash = document.location.hash;
 if(!hash){
  lat = 41.914541;
@@ -23,14 +17,14 @@ if(!hash){
    zoom = parseInt(h[0]);
    lat = parseFloat(h[1]);
    lng=parseFloat(h[2]);
-   l=h[3];
+   c=h[3];
 };
 
 function setHash(zoom,lat,lng){
   zoom = zoom||m.getZoom();
   lat = lat||m.getCenter().lat();
   lng=lng||m.getCenter().lng();
-  hash = "#"+zoom+"/"+lat+"/"+lng+"/"+l;
+  hash = "#"+zoom+"/"+lat+"/"+lng+"/"+c;
   document.location.hash=hash;
 }
 function changeHash(){
@@ -53,20 +47,51 @@ var m = new g.Map(document.getElementById('map'), {
 g.event.addListener(m, 'center_changed',changeHash);
 g.event.addListener(m, 'zoom_changed',changeHash);
 var mainLayer = new g.FusionTablesLayer({map:m,
-      query: {select: 'poly',from: langs[l].id}
+      query: {select: 'poly',from: tid},
+      styles:[{
+          polygonOptions:{
+              fillColor:"#ff9900",
+              strokeWeight:0
+          }},
+          {where:"'Percent "+c+"' >0.08",
+           polygonOptions:{
+              fillColor:"#ff0000"}}
+          ,
+          {where:"'Percent "+c+"' <0.04",
+           polygonOptions:{
+              fillColor:"#00ff00"}},
+          {where:"'Percent "+c+"' <0.02",
+           polygonOptions:{
+              fillColor:"#0000ff"}}
+          ]
      });
 $('#tabs-2').append('<select id="Lang"></select>');
-$.each(langs,function(k){
+$.each(l,function(i,k){
   $('#Lang').append("<option value='" +k+"'>"+k+"</option>"); 
 });
  $('#Lang').change(function(){
    mainLayer.setMap(null);  
-   l=$('#Lang').val();
-   mainLayer.setOptions({
-      query: {select: 'poly',from: langs[l].id}
+   c=$('#Lang').val();
+   mainLayer.setOptions({map:m,
+      query: {select: 'poly',from: tid},
+      styles:[{
+          polygonOptions:{
+              fillColor:"#ff9900",
+              strokeWeight:0
+          }},
+          {where:"'Percent "+c+"' >0.08",
+           polygonOptions:{
+              fillColor:"#ff0000"}}
+          ,
+          {where:"'Percent "+c+"' <0.04",
+           polygonOptions:{
+              fillColor:"#00ff00"}},
+          {where:"'Percent "+c+"' <0.02",
+           polygonOptions:{
+              fillColor:"#0000ff"}}
+          ]
      });
-     mainLayer.setMap(m);
-     changeHash();
+      changeHash();
  });
 geocoder();
 function geocoder(geof,addrf,resetf){

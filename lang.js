@@ -5,9 +5,11 @@ var zoom;
 var lat;
 var lng;
 var langs = {
-    "Spanish":{"id":"1KhAGPhfDsMVHYckfcySZ9RUZiSuE3qgHrsj8YbY","c":"Percent Spanish"},
-"French":{"id":"1xpbIRbpvruYQbnZ1oyH61L9CNNEdRQ5Vq0AuyK4","c":"Percent French"},
-"Portuguese":{"id":"1Wbb-7oIrLUMZ60r9DEn3zAuzjW0SHP2venVyHD4","c":"Percent Portuguese"}
+    "Spanish":{"id":"1KhAGPhfDsMVHYckfcySZ9RUZiSuE3qgHrsj8YbY"},
+"French":{"id":"1xpbIRbpvruYQbnZ1oyH61L9CNNEdRQ5Vq0AuyK4"},
+"Portuguese":{"id":"1Wbb-7oIrLUMZ60r9DEn3zAuzjW0SHP2venVyHD4"},
+"Chinese":{"id":"1pFgXzqn0jwsEEQQmlKSPSQRpB_Q2Xj5NvbTtBMc"},
+"Italian":{"id":"1shFONnSwa1Fc8HUOdOdGmY8ieTAIuO6onAm2OVc"}
 };
 var l = "Spanish";
 var hash = document.location.hash;

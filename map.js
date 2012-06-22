@@ -8,9 +8,9 @@ var l = ["Spanish","French","French Creole","Italian","Portuguese","Greek","Russ
 var c = l[0];
 var hash = document.location.hash;
 if(!hash){
- lat = 41.914541;
- lng = -71.592407;
- zoom = 8;
+ lat = 42.39405101407922;
+ lng = -71.21063209765622;
+ zoom = 10;
  setHash(zoom,lat,lng);
 }else if(!!hash){
    var h = hash.slice(1).split("/");

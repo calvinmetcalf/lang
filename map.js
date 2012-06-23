@@ -3,14 +3,17 @@ var g = google.maps;
 var zoom;
 var lat;
 var lng;
-var tid ="1c652Nh2j2SEGsi0ZDRzysEwf_yGEhsrUyC2miUA"
+var ids ={"out":"1ec6BVaXU7xnCawVZvbh22ARd0KQ8bYs1LUMsCfk",
+"in":"1c652Nh2j2SEGsi0ZDRzysEwf_yGEhsrUyC2miUA",
+"status":""};
 var l = ["Spanish","French","French Creole","Italian","Portuguese","Greek","Russian","Polish","Chinese","Korean","Cambodian","Vietnamese","Arabic"];
 var c = l[0];
 var hash = document.location.hash;
 if(!hash){
  lat = 42.39405101407922;
  lng = -71.21063209765622;
- zoom = 10;
+ zoom = 8;
+ ids.status="out";
  setHash(zoom,lat,lng);
 }else if(!!hash){
    var h = hash.slice(1).split("/");
@@ -18,8 +21,15 @@ if(!hash){
    lat = parseFloat(h[1]);
    lng=parseFloat(h[2]);
    c=h[3];
+   ids.status=oi(zoom);
 };
-
+function oi(z){
+var o="out";
+if(z>10){
+o="in" 
+}
+return o;
+}
 function setHash(zoom,lat,lng){
   zoom = zoom||m.getZoom();
   lat = lat||m.getCenter().lat();
@@ -28,7 +38,8 @@ function setHash(zoom,lat,lng){
   document.location.hash=hash;
 }
 function changeHash(){
- setHash();   
+ setHash();
+changeStatus();
 }
 $( "#tabs" ).tabs({
     collapsible: true,
@@ -47,49 +58,23 @@ var m = new g.Map(document.getElementById('map'), {
 g.event.addListener(m, 'center_changed',changeHash);
 g.event.addListener(m, 'zoom_changed',changeHash);
 var mainLayer = new g.FusionTablesLayer({map:m,
-      query: {select: 'poly',from: tid},
-      styles:[{
-          polygonOptions:{
-              fillColor:"#ff9900",
-              strokeWeight:0
-          }},
-          {where:"'Percent "+c+"' >0.08",
-           polygonOptions:{
-              fillColor:"#ff0000"}}
-          ,
-          {where:"'Percent "+c+"' <0.04",
-           polygonOptions:{
-              fillColor:"#00ff00"}},
-          {where:"'Percent "+c+"' <0.02",
-           polygonOptions:{
-              fillColor:"#0000ff"}}
-          ]
+      query: {select: 'poly',from: ids[ids.status]},
+      styles:getStyle(c)
      });
 $('#tabs-2').append('<select id="Lang"></select>');
 $.each(l,function(i,k){
+if(k==c){
+$('#Lang').append("<option value='" +k+"' selected='selected'>"+k+"</option>"); 
+}else{
   $('#Lang').append("<option value='" +k+"'>"+k+"</option>"); 
+  }
 });
  $('#Lang').change(function(){
    mainLayer.setMap(null);  
    c=$('#Lang').val();
    mainLayer.setOptions({map:m,
-      query: {select: 'poly',from: tid},
-      styles:[{
-          polygonOptions:{
-              fillColor:"#ff9900",
-              strokeWeight:0
-          }},
-          {where:"'Percent "+c+"' >0.08",
-           polygonOptions:{
-              fillColor:"#ff0000"}}
-          ,
-          {where:"'Percent "+c+"' <0.04",
-           polygonOptions:{
-              fillColor:"#00ff00"}},
-          {where:"'Percent "+c+"' <0.02",
-           polygonOptions:{
-              fillColor:"#0000ff"}}
-          ]
+      query: {select: 'poly',from: ids[ids.status]},
+      styles:getStyle(c)
      });
       changeHash();
  });
@@ -128,5 +113,36 @@ function geocoder(geof,addrf,resetf){
         gc.geomarker.setMap(null);
     });
 };
+function getStyle(c){
+return [
+          {where:"'Percent "+c+"' <0.06",
+           polygonOptions:{
+              fillColor:"#ff9900"}}
+          ,
+          {where:"'Percent "+c+"' <0.04",
+           polygonOptions:{
+              fillColor:"#00ff00"}},
+              {where:"'Percent "+c+"' <0.03",
+           polygonOptions:{
+              fillColor:"#ffff00"}},
+          {where:"'Percent "+c+"' <0.02",
+           polygonOptions:{
+              fillColor:"#0000ff"}},
+              {where:"'Percent "+c+"' <0.01",
+           polygonOptions:{
+              fillColor:"#00ffff"}}
+          ];
 
+}
+function changeStatus(){
+var z = m.getZoom();
+var s=oi(z);
+if(ids.status!=s){
+ids.status = s;
+mainLayer.setOptions({map:m,
+      query: {select: 'poly',from: ids[ids.status]},
+      styles:getStyle(c)
+     });
+}
+}
 });

@@ -3,6 +3,7 @@ var g = google.maps;
 var zoom;
 var lat;
 var lng;
+var iw = new g.InfoWindow();;
 var ids ={"out":"1ec6BVaXU7xnCawVZvbh22ARd0KQ8bYs1LUMsCfk",
 "in":"1c652Nh2j2SEGsi0ZDRzysEwf_yGEhsrUyC2miUA",
 "status":""};
@@ -57,10 +58,11 @@ var m = new g.Map(document.getElementById('map'), {
 });
 g.event.addListener(m, 'center_changed',changeHash);
 g.event.addListener(m, 'zoom_changed',changeHash);
-var mainLayer = new g.FusionTablesLayer({map:m,
+var mainLayer = new g.FusionTablesLayer({map:m,suppressInfoWindows:true,
       query: {select: 'poly',from: ids[ids.status]},
       styles:getStyle(c)
      });
+g.event.addListener(mainLayer,"click",infoW);
 $('#tabs-2').append('<select id="Lang"></select>');
 $.each(l,function(i,k){
 if(k==c){
@@ -72,7 +74,7 @@ $('#Lang').append("<option value='" +k+"' selected='selected'>"+k+"</option>");
  $('#Lang').change(function(){
    mainLayer.setMap(null);  
    c=$('#Lang').val();
-   mainLayer.setOptions({map:m,
+   mainLayer.setOptions({map:m,suppressInfoWindows:true,
       query: {select: 'poly',from: ids[ids.status]},
       styles:getStyle(c)
      });
@@ -144,5 +146,16 @@ mainLayer.setOptions({map:m,
       styles:getStyle(c)
      });
 }
+}
+function infoW(d){
+var f= "http://chart.apis.google.com/chart?chs=338x180&cht=p&chco=FF0000|224499&chds=-10,"+d.row.English.value+"&chd=t:"+d.row.English.value+","+d.row[c].value+"&chl=English "+d.row.English.value+"|"+c+" " + d.row[c].value+"&chtt=Percent+"+c;
+ var e= "<div class='iwindow'><img src='"+f+"'/></div>";
+iw.setOptions({
+
+map:m,
+content:e,
+position:d.latLng}
+);
+
 }
 });

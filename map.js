@@ -166,9 +166,22 @@ r.addRow(['English',parseInt(d.row['English'].value)]);
 $.each(l,function(i,n){
 r.addRow([n,parseInt(d.row[n].value)]);
 });
-var o = {'title':'Languages',
-                       'width':300,
-                       'height':180};
+var t
+if(d.row.Name){
+t=d.row.Name.value}
+else{
+t='Languages';
+}
+var o = {'title':t,
+                       'width':350,
+                       'height':180,
+                       'chartArea':{'left':0,
+                       'width':'100%',
+                       'height':'70%'},
+                      'titleTextStyle':{
+                      'fontSize':20
+                      },
+                       'is3D':true};
 var chart = new google.visualization.PieChart(document.getElementById('iwindow'));
 chart.draw(r,o); 
 });

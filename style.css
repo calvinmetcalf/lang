@@ -7,9 +7,7 @@ html { height: 100% }
   margin-top:5px;
   padding:0;
   font-size:12px;}
-  #logo{
-   position:absolute;
-   bottom:20px;
-   right:15px;
-   z-index:11;
+  #iwindow{
+ width:305px;
+ height:185px;
   }

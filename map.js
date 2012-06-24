@@ -1,3 +1,4 @@
+google.load('visualization', '1.0', {'packages':['corechart']});
 $(function() {
 var g = google.maps;
 var zoom;
@@ -148,14 +149,26 @@ mainLayer.setOptions({map:m,
 }
 }
 function infoW(d){
-var f= "http://chart.apis.google.com/chart?chs=338x180&cht=p&chco=FF0000|224499&chds=-10,"+d.row.English.value+"&chd=t:"+d.row.English.value+","+d.row[c].value+"&chl=English "+d.row.English.value+"|"+c+" " + d.row[c].value+"&chtt=Percent+"+c;
- var e= "<div class='iwindow'><img src='"+f+"'/></div>";
+
+ var e= "<div id='iwindow'></div>";
 iw.setOptions({
 
 map:m,
 content:e,
 position:d.latLng}
 );
+g.event.addListener(iw, 'domready', function() {
+var r = new google.visualization.DataTable();
+r.addColumn('string','Language');
+r.addColumn('number','Speakers');
 
+r.addRow(['English',parseInt(d.row['English'].value)]);
+r.addRow([c,parseInt(d.row[c].value)]);
+var o = {'title':'Languages',
+                       'width':300,
+                       'height':180};
+var chart = new google.visualization.PieChart(document.getElementById('iwindow'));
+chart.draw(r,o); 
+});
 }
 });

@@ -163,7 +163,9 @@ r.addColumn('string','Language');
 r.addColumn('number','Speakers');
 
 r.addRow(['English',parseInt(d.row['English'].value)]);
-r.addRow([c,parseInt(d.row[c].value)]);
+$.each(l,function(i,n){
+r.addRow([n,parseInt(d.row[n].value)]);
+});
 var o = {'title':'Languages',
                        'width':300,
                        'height':180};

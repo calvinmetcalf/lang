@@ -196,6 +196,12 @@ var o = {'title':t,
                        'height':180}
 
 var chart = new google.visualization.PieChart(document.getElementById('iw'));
+google.visualization.events.addListener(chart,'ready',function(){
+    $('#tog').change(function(){
+setInfo[$('#tog').val()]();
+
+});
+    });
 chart.draw(r,o); 
 var table = new google.visualization.Table(document.getElementById('iw'));
 var setInfo = {};
@@ -207,10 +213,7 @@ setInfo.chart=function(){
 table.clearChart()
 chart.draw(r,o)
 }
-$('#tog').change(function(){
-setInfo[$('#tog').val()]();
 
-});
 });
 }
 });

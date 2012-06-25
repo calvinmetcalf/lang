@@ -83,7 +83,7 @@ $('#Lang').append("<option value='" +k+"' selected='selected'>"+k+"</option>");
       changeLegend();
  });
 function changeLegend(){
-$('#legend').empty().append("<h3>Percent "+c+"</h3><ul><li class='o-lightblue'>Less Then 1%</li><li class='o-darkblue'>1%-2%</li><li class='o-yellow'>2%-3%</li><li class='o-green'>3%-4%</li><li class='o-orange'>4%-6%</li><li class='o-red'>Greater then 6%</li></ul>");
+$('#legend').empty().append("<b>Percent who speak<br/>"+c+" but not English</b><ul><li class='o-lightblue'>Less Then 1%</li><li class='o-darkblue'>1%-2%</li><li class='o-yellow'>2%-3%</li><li class='o-green'>3%-4%</li><li class='o-orange'>4%-6%</li><li class='o-red'>Greater then 6%</li></ul>");
 }
 changeLegend();
 geocoder();

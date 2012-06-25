@@ -80,7 +80,12 @@ $('#Lang').append("<option value='" +k+"' selected='selected'>"+k+"</option>");
       styles:getStyle(c)
      });
       changeHash();
+      changeLegend();
  });
+function changeLegend(){
+$('#legend').empty().append("<h3>Percent "+c+"</h3><ul><li class='o-lightblue'>Less Then 1%</li><li class='o-darkblue'>1%-2%</li><li class='o-yellow'>2%-3%</li><li class='o-green'>3%-4%</li><li class='o-orange'>4%-6%</li><li class='o-red'>Greater then 6%</li></ul>");
+}
+changeLegend();
 geocoder();
 function geocoder(geof,addrf,resetf){
     var ozoom = m.getZoom();
@@ -162,17 +167,18 @@ g.event.addListener(iw, 'domready', function() {
 var r = new google.visualization.DataTable();
 r.addColumn('string','Language');
 r.addColumn('number','Speakers');
-
 r.addRow(['English',parseInt(d.row['English'].value)]);
 $.each(l,function(i,n){
 var p = parseInt(d.row[n].value);
 if(p>0){
 r.addRow([n,p]);
+
 }
 });
-var t
+
+var t;
 if(d.row.Name){
-t=d.row.Name.value}
+t=d.row.Name.value;}
 else{
 t='Languages';
 }

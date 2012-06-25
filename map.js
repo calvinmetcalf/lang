@@ -155,7 +155,7 @@ mainLayer.setOptions({map:m,
 }
 function infoW(d){
 
- var e= "<div id='iwindow'><select id='tog'><option value='chart'>Pie Chart</option><option value='table'>Sortable Grid</option></select><div id='iw'></div></div>";
+ var e= "<div id='iwindow'><!--[if !IE]>--><select id='tog'><option value='chart'>Pie Chart</option><option value='table'>Sortable Grid</option></select><!--<![endif]--><div id='iw'></div></div>";
 iw.setOptions({
 
 map:m,
@@ -196,12 +196,7 @@ var o = {'title':t,
                        'height':180}
 
 var chart = new google.visualization.PieChart(document.getElementById('iw'));
-google.visualization.events.addListener(chart,'ready',function(){
-    $('#tog').change(function(){
-setInfo[$('#tog').val()]();
 
-});
-    });
 chart.draw(r,o); 
 var table = new google.visualization.Table(document.getElementById('iw'));
 var setInfo = {};
@@ -213,7 +208,10 @@ setInfo.chart=function(){
 table.clearChart()
 chart.draw(r,o)
 }
+$('#tog').change(function(){
+setInfo[$('#tog').val()]();
 
+});
 });
 }
 });

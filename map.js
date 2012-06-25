@@ -155,7 +155,7 @@ mainLayer.setOptions({map:m,
 }
 function infoW(d){
 
- var e= "<div id='iwindow'><!--[if !IE]>--><select id='tog'><option value='chart'>Pie Chart</option><option value='table'>Sortable Grid</option></select><!--<![endif]--><div id='iw'></div></div>";
+ var e= "<div id='iwindow'><select id='tog'><option value='chart'>Pie Chart</option><option value='table'>Sortable Grid</option></select><div id='iw'></div></div>";
 iw.setOptions({
 
 map:m,

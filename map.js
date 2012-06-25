@@ -1,4 +1,4 @@
-google.load('visualization', '1.0', {'packages':['corechart']});
+google.load('visualization', '1.0', {'packages':['corechart','table']});
 $(function() {
 var g = google.maps;
 var zoom;
@@ -150,7 +150,7 @@ mainLayer.setOptions({map:m,
 }
 function infoW(d){
 
- var e= "<div id='iwindow'></div>";
+ var e= "<div id='iwindow'><select id='tog'><option value='chart'>Pie Chart</option><option value='table'>Sortable Grid</option></select><div id='iw'></div></div>";
 iw.setOptions({
 
 map:m,
@@ -158,13 +158,17 @@ content:e,
 position:d.latLng}
 );
 g.event.addListener(iw, 'domready', function() {
+
 var r = new google.visualization.DataTable();
 r.addColumn('string','Language');
 r.addColumn('number','Speakers');
 
 r.addRow(['English',parseInt(d.row['English'].value)]);
 $.each(l,function(i,n){
-r.addRow([n,parseInt(d.row[n].value)]);
+var p = parseInt(d.row[n].value);
+if(p>0){
+r.addRow([n,p]);
+}
 });
 var t
 if(d.row.Name){
@@ -182,8 +186,25 @@ var o = {'title':t,
                       'fontSize':20
                       },
                        'is3D':true};
-var chart = new google.visualization.PieChart(document.getElementById('iwindow'));
+                       var oo={'width':350,
+                       'height':180}
+
+var chart = new google.visualization.PieChart(document.getElementById('iw'));
 chart.draw(r,o); 
+var table = new google.visualization.Table(document.getElementById('iw'));
+var setInfo = {};
+setInfo.table=function(){
+chart.clearChart()
+table.draw(r,oo)
+}
+setInfo.chart=function(){
+table.clearChart()
+chart.draw(r,o)
+}
+$('#tog').change(function(){
+setInfo[$('#tog').val()]();
+
+});
 });
 }
 });

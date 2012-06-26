@@ -27,7 +27,7 @@ if(!hash){
 };
 function oi(z){
 var o="out";
-if(z>10){
+if(z>9){
 o="in" 
 }
 return o;

@@ -12,7 +12,7 @@ $( "#tabs" ).tabs({collapsible: true,selected: -1});
 $( "input:submit" ).button();
 $('input, textarea').placeholder();
 var kcap = $.map(k,function(v){
-var u = v.trim().split(" ");
+var u = $.trim(v).split(" ");
 var up =$.map(u,function(uu){
  uuu = uu.slice(0,1).toUpperCase() + uu.slice(1);
  return uuu;

@@ -1,7 +1,6 @@
 google.load('visualization', '1.0', {'packages':['corechart','table']});
 var r;
 $(function() {
-  
 var w = google.visualization;
 $.get("https://otp.iriscouch.com/lang/_design/stats/_view/Unique?group=true",table,"JSONP");
 function table(d){

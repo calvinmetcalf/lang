@@ -7,8 +7,10 @@ function table(d){
 var k=$.map(d.rows,function(r){
     return r.key;
 });
-$("#chart").append("<input id='towns' type='text' /><input id='sub' type='submit' value='Go' /><div id='viz'></div>");
+$("#chart").append("<input id='towns' type='text' placeholder='Town Name'/><input id='sub' type='submit' value='Go' /><div id='viz'></div>");
 $( "#tabs" ).tabs({collapsible: true,selected: -1});
+$( "input:submit" ).button();
+$('input, textarea').placeholder();
 var kcap = $.map(k,function(v){
 var u = v.trim().split(" ");
 var up =$.map(u,function(uu){
@@ -39,4 +41,5 @@ $.each(data,function(k,v){
 var table = new w.Table(document.getElementById('viz'));
 table.draw(r);    
 }
+
 });

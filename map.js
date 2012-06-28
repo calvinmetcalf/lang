@@ -129,7 +129,7 @@ return [
           ,
           {where:"'Percent "+c+"' <0.04",
            polygonOptions:{
-              fillColor:"#274e13"}},
+              fillColor:"#00a353 "}},
               {where:"'Percent "+c+"' <0.03",
            polygonOptions:{
               fillColor:"#ffff00"}},

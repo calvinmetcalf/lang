@@ -34,6 +34,7 @@ getTract(lat,lng);
 
 $( "input:submit" ).button();
 $('input, textarea').placeholder();
+$( "#tabs" ).tabs();
 $("#srch").click(function(){
     gc(
         $("#adr").val()
@@ -50,7 +51,18 @@ $.each(d,function(k,v){
    
    } 
 });
-var t= new google.visualization.Table(document.getElementById('chart'));
+var t= new google.visualization.Table(document.getElementById('tabs-1'));
+var c= new google.visualization.PieChart(document.getElementById('tabs-2'));
 t.draw(r);
+var o = {'width':900,
+                      'height':400,
+                       'chartArea':{'left':0,
+                       'width':'100%',
+                       'height':'80%'},
+                      'titleTextStyle':{
+                      'fontSize':20
+                      },
+                       'is3D':true};
+c.draw(r,o);
 }
 });

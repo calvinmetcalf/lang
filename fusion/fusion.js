@@ -5,9 +5,10 @@ $(function() {
 var lat,lng;
 var g = google.maps;
 var infowindow = new g.InfoWindow();
-var base ="https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20Total,poly,'English Bilingual','English Only','Other African',Arabic,Armenian,Chinese,French,'Haitian Creole',German,Greek,Gujarati,Hebrew,Hindi,Hmong,Hungarian,Italian,Japanese,Korean,Laotian,Cambodian,'Other Misc','Other Asian','Other Indic','Other Indo-European','Other Native','Other Pacific Island','Other Slavic','Other West Germanic',Persian,Polish,Portuguese,Russian,'Other Scandinavian','Serbo-Croatian',Spanish,Tagalog,Thai,Urdu,Vietnamese,Yiddish%20FROM%201Nmn4ITGyXRucIE52dt55mEhy7RWKm_s55f3dOhg+ORDER%20BY%20ST_DISTANCE(poly,%20LATLNG(";
+var ls = "Total,poly,'English Bilingual','English Only','Other African',Arabic,Armenian,Chinese,French,'Haitian Creole',German,Greek,Gujarati,Hebrew,Hindi,Hmong,Hungarian,Italian,Japanese,Korean,Laotian,Cambodian,'Other Misc','Other Asian','Other Indic','Other Indo-European','Other Native','Other Pacific Island','Other Slavic','Other West Germanic',Persian,Polish,Portuguese,Russian,'Other Scandinavian','Serbo-Croatian',Spanish,Tagalog,Thai,Urdu,Vietnamese,Yiddish"
+var base ="https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20"+ls+"%20FROM%201Nmn4ITGyXRucIE52dt55mEhy7RWKm_s55f3dOhg+WHERE%20ST_INTERSECTS(poly,%20CIRCLE(LATLNG(";
 
-var end ="))%20LIMIT%201&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ";
+var end ="),5))&key=AIzaSyAm9yWCV7JPCTHCJut8whOjARd7pwROFDQ";
 uiStuff();
 function getTract(lat,lng){
     var latlng =[lat,lng].join(",");

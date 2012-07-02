@@ -103,7 +103,7 @@ p= new g.FusionTablesLayer({
 
 function sMap(j){
     poly= new g.Polygon({fillColor:"#f6b26b",
-    fillOpacity:0.4;
+    fillOpacity:0.4,
     clickable:false,
         paths: $.map(j.geometry.coordinates[0],function(v){
             return new g.LatLng(v[1],v[0]);}),

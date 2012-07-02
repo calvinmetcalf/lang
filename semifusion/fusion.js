@@ -2,12 +2,7 @@ google.load('visualization', '1.0', {'packages':['corechart','table']});
 var m,marker,poly;
 var g = google.maps;
 $(function() {
- g.event.addListener(m, 'click',function(event){
-        
-          cb(event.latLng);
-
-  
-     });
+;
 var lat,lng;
 
 
@@ -45,7 +40,9 @@ lng = loc.lng();
 getTract(lat,lng);
 makeMap();
 }
-
+ g.event.addListener(m, 'click',function(event){
+        cb(event.latLng);
+ })
 
 function makeChart(d){
     var r = new google.visualization.DataTable();

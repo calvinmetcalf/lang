@@ -2,7 +2,12 @@ google.load('visualization', '1.0', {'packages':['corechart','table']});
 var m,marker,poly;
 var g = google.maps;
 $(function() {
+ g.event.addListener(m, 'click',function(event){
+        
+          cb(event.latLng);
 
+  
+     });
 var lat,lng;
 
 
@@ -89,14 +94,10 @@ function makeMap(){
      });
     
 }
- g.event.addListener(m, 'click',function(event){
-        
-          cb(event.latLng);
 
-  
-     });
 function sMap(j){
     poly= new g.Polygon({
+    clickable:false,
         paths: $.map(j.geometry.coordinates[0],function(v){
             return new g.LatLng(v[1],v[0]);}),
     map:m

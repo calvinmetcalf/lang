@@ -29,13 +29,13 @@ function gc(a){
 var geoc = new g.Geocoder();
 geoc.geocode( { 'address': a}, function(results, status) {
      if (status == g.GeocoderStatus.OK) {
-          cb(results[0]);
+          cb(results[0].geometry.location);
      }
 });
 };
-function cb(r){
-lat = r.geometry.location.lat();
-lng = r.geometry.location.lng();
+function cb(loc){
+lat = loc.lat();
+lng = loc.lng();
 getTract(lat,lng);
 makeMap();
 }
@@ -88,19 +88,19 @@ function makeMap(){
      });
     
 }
+ g.event.addListener(m, 'click',function(event){
+        
+          cb(event.latLng);
+
+  
+     });
 function sMap(j){
     poly= new g.Polygon({
         paths: $.map(j.geometry.coordinates[0],function(v){
             return new g.LatLng(v[1],v[0]);}),
     map:m
     });
-     g.event.addListener(poly, 'click',function(event){
-         var content = "The Census Tract In Question";
-          infowindow.setContent(content);
-          infowindow.setPosition(event.latLng);
-
-  infowindow.open(m);
-     });
+    
 }
 function uiStuff(){
  $( "input:submit" ).button();

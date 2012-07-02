@@ -41,6 +41,7 @@ getTract(lat,lng);
 makeMap();
 }
  g.event.addListener(m, 'click',function(event){
+ e=event;
         cb(event.latLng);
  })
 
@@ -89,7 +90,7 @@ function makeMap(){
  title:"address"
      
      });
-    
+    g.event.addListener(m, 'click',function(event){cb(event.latLng);});
 }
 
 function sMap(j){

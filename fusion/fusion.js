@@ -1,10 +1,25 @@
 google.load('visualization', '1.0', {'packages':['corechart','table']});
-var m,marker,poly;
-$(function() {
-
-var lat,lng;
+var m,marker,p,e;
 var g = google.maps;
-var infowindow = new g.InfoWindow();
+var lat,lng;
+
+$(function() {
+  m = new g.Map(document.getElementById('map'), {
+   
+    zoom: 15,
+    mapTypeId: 'roadmap'
+});
+p= new g.FusionTablesLayer({
+   suppressInfoWindows:true
+  
+    });
+    marker = new g.Marker({
+     map:m,
+
+ title:"address"
+     
+     });
+
 var ls = "Total,poly,'English Bilingual','English Only','Other African',Arabic,Armenian,Chinese,French,'Haitian Creole',German,Greek,Gujarati,Hebrew,Hindi,Hmong,Hungarian,Italian,Japanese,Korean,Laotian,Cambodian,'Other Misc','Other Asian','Other Indic','Other Indo-European','Other Native','Other Pacific Island','Other Slavic','Other West Germanic',Persian,Polish,Portuguese,Russian,'Other Scandinavian','Serbo-Croatian',Spanish,Tagalog,Thai,Urdu,Vietnamese,Yiddish"
 var base ="https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20"+ls+"%20FROM%201Nmn4ITGyXRucIE52dt55mEhy7RWKm_s55f3dOhg+WHERE%20ST_INTERSECTS(poly,%20CIRCLE(LATLNG(";
 
@@ -16,30 +31,31 @@ $.get(base+latlng+end,dc,"JSONP");
 }
 function dc(data){
     var d={};
+    if(data.rows){
    $.each(data.rows[0],function(i,v){
     if(v>0){
      d[data.columns[i]]=v   
     }
    });
  makeChart(d);
- sMap(data.rows[0][1]);
+    }
 }
 function gc(a){
 
 var geoc = new g.Geocoder();
 geoc.geocode( { 'address': a}, function(results, status) {
      if (status == g.GeocoderStatus.OK) {
-          cb(results[0]);
+          cb(results[0].geometry.location);
      }
 });
 };
-function cb(r){
-lat = r.geometry.location.lat();
-lng = r.geometry.location.lng();
+function cb(loc){
+lat = loc.lat();
+lng = loc.lng();
 getTract(lat,lng);
 makeMap();
 }
-
+function getW(){return"ST_INTERSECTS(poly, CIRCLE(LATLNG("+[lat,lng].join(",")+"),5))";}
 
 function makeChart(d){
     var r = new google.visualization.DataTable();
@@ -67,7 +83,7 @@ var o = {'width':900,
 c.draw(r,o);
 }
 function makeMap(){
-    var center = new g.LatLng(lat,lng)
+   var center = new g.LatLng(lat,lng);
    $('#tabs').bind('tabsshow', function(event, ui) {
     if (ui.panel.id == "map") {
        g.event.trigger(m,"resize");
@@ -75,32 +91,26 @@ function makeMap(){
     }
 });
     
-    m = new g.Map(document.getElementById('map'), {
-    center: center,
-    zoom: 14,
-    mapTypeId: 'roadmap'
-});
-  marker = new g.Marker({
-     map:m,
- position:center,
- title:"address"
-     
-     });
-    
-}
-function sMap(j){
-    poly= new g.Polygon({
-        paths: $.map(j.geometry.coordinates[0],function(v){
-            return new g.LatLng(v[1],v[0]);}),
-    map:m
-    });
-     g.event.addListener(poly, 'click',function(event){
-         var content = "The Census Tract In Question";
-          infowindow.setContent(content);
-          infowindow.setPosition(event.latLng);
 
-  infowindow.open(m);
-     });
+
+    p.setOptions({  query: {
+        select: 'poly',
+        from:"1Nmn4ITGyXRucIE52dt55mEhy7RWKm_s55f3dOhg"
+        },
+    styles: [{where: getW(),
+        polygonOptions: {
+    fillColor: "#f6b26b",
+  fillOpacity:0.4
+  
+    
+  }
+    }
+        ],
+    map:m});
+    
+g.event.addListener(p, 'click',function(event){cb(event.latLng);});
+  marker.setPosition(center);
+    
 }
 function uiStuff(){
  $( "input:submit" ).button();

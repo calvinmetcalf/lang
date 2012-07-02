@@ -40,10 +40,6 @@ lng = loc.lng();
 getTract(lat,lng);
 makeMap();
 }
- g.event.addListener(m, 'click',function(event){
- e=event;
-        cb(event.latLng);
- })
 
 function makeChart(d){
     var r = new google.visualization.DataTable();
@@ -104,6 +100,7 @@ p= new g.FusionTablesLayer({
 function sMap(j){
     poly= new g.Polygon({fillColor:"#f6b26b",
     fillOpacity:0.4,
+    strokeWeight:0,
     clickable:false,
         paths: $.map(j.geometry.coordinates[0],function(v){
             return new g.LatLng(v[1],v[0]);}),

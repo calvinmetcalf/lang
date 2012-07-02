@@ -1,5 +1,5 @@
 google.load('visualization', '1.0', {'packages':['corechart','table']});
-var m,marker,poly;
+var m,marker,poly,p;
 var g = google.maps;
 $(function() {
 ;
@@ -84,17 +84,26 @@ function makeMap(){
     zoom: 14,
     mapTypeId: 'roadmap'
 });
+p= new g.FusionTablesLayer({
+   suppressInfoWindows:true,
+   map:m,
+   query: {
+        select: 'poly',
+        from:"1Nmn4ITGyXRucIE52dt55mEhy7RWKm_s55f3dOhg"
+        },
+    });
   marker = new g.Marker({
      map:m,
  position:center,
  title:"address"
      
      });
-    g.event.addListener(m, 'click',function(event){cb(event.latLng);});
+    g.event.addListener(p, 'click',function(event){cb(event.latLng);});
 }
 
 function sMap(j){
-    poly= new g.Polygon({
+    poly= new g.Polygon({fillColor:"#f6b26b",
+    fillOpacity:0.4;
     clickable:false,
         paths: $.map(j.geometry.coordinates[0],function(v){
             return new g.LatLng(v[1],v[0]);}),

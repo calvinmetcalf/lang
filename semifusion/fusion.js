@@ -77,7 +77,7 @@ function makeMap(){
     
     m = new g.Map(document.getElementById('map'), {
     center: center,
-    zoom: 14,
+    zoom: 15,
     mapTypeId: 'roadmap'
 });
 p= new g.FusionTablesLayer({
